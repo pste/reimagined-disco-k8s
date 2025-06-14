@@ -15,3 +15,6 @@ Store the generated public key:
 A simple git hook is configured to avoid commit of encrypted secrets.  
 It just need to be activated:  
 `git config core.hooksPath .githooks`
+
+# Apply
+`kubectl apply -k k8s`
