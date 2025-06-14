@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: reimagined-disco
+  labels:
+    app: reimagined-disco
+    component: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reimagined-disco
+      component: api
+  template:
+    metadata:
+      labels:
+        app: reimagined-disco
+        component: api
+    spec:
+      containers:
+        - name: api
+          image: nginx
+          ports:
+            - containerPort: 3000 # containerPort must match where the container listen to !
+          volumeMounts:
+            - name: smb
+              mountPath: /data/music
+      volumes:
+        - name: smb
+          persistentVolumeClaim:
+            claimName: pvc-usbmusic-smb

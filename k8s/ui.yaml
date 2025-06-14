@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui
+  namespace: reimagined-disco
+  labels:
+    app: reimagined-disco
+    component: ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reimagined-disco
+      component: ui
+  template:
+    metadata:
+      labels:
+        app: reimagined-disco
+        component: ui
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80 # must match where the container listen to !
