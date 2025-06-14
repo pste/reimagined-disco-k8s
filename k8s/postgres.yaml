@@ -1,0 +1,111 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-volume
+  namespace: reimagined-disco
+  labels:
+    type: local
+    app: postgres
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /var/mnt/hdd-data-1
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-volume-claim
+  namespace: reimagined-disco
+  labels:
+    app: postgres
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: reimagined-disco
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: 'postgres:14'
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
+            # runAsNonRoot: true
+            #capabilities:
+            #  drop: 
+            #    - ALL
+            seccompProfile:
+              type: RuntimeDefault # "RuntimeDefault" or "Localhost"
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: pgcreds
+                  key: PGDATABASE
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: pgcreds
+                  key: PGUSER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgcreds
+                  key: PGPASSWORD
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgresdata
+            #- name: pgconfigfile
+            #  mountPath: /app/config.yaml
+            #  subPath: config.yaml
+      volumes:
+        # data
+        - name: postgresdata
+          persistentVolumeClaim:
+            claimName: postgres-volume-claim
+        # configmap
+        #- name: pgconfigfile
+        #  configMap:
+        #    name: pgconfig
+      #volumes:
+      #  - name: postgresdata
+      #    hostPath:
+      #      path: /var/mnt/hdd-data-1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: reimagined-disco
+  labels:
+    app: postgres
+spec:
+  type: ClusterIP
+  selector:
+    app: postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
