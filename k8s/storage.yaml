@@ -24,7 +24,7 @@ spec:
     volumeAttributes:
       source: "//192.168.178.1/FRITZ.NAS" # MUSIC folder
     nodeStageSecretRef:
-      name: smbcreds
+      name: smbcredentials
       namespace: reimagined-disco
 ---
 kind: PersistentVolumeClaim
