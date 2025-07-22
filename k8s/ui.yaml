@@ -19,7 +19,7 @@ spec:
         component: ui
     spec:
       containers:
-      - name: nginx
-        image: nginx
+      - name: ui
+        image: pirraste/reimagined-disco-ui:v0.0.3
         ports:
         - containerPort: 80 # must match where the container listen to !
