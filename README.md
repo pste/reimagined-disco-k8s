@@ -8,7 +8,7 @@ Using [SOPS](https://github.com/getsops/sops/releases) and [age](https://github.
 
 Generate your `age` keys:
 `age-keygen -o private/age-key.txt`
-Store the generated public key:  
+Store the generated **public** key:  
 `echo 'age1tjkygqahtv3gxrktknq33gxuql70ax8mludhxd98q5fpl3veqfzs5ask40' > public-age-keys.txt`
 
 ## Git hook
@@ -17,4 +17,8 @@ It just need to be activated:
 `git config core.hooksPath .githooks`
 
 # Apply
-`kubectl apply -k k8s`
+```
+sh ./decrypt.sh
+kubectl apply -k k8s
+sh ./encrypt.sh
+```
