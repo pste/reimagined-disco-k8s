@@ -22,4 +22,12 @@ spec:
       - name: ui
         image: pirraste/reimagined-disco-ui:v0.0.3
         ports:
-        - containerPort: 80 # must match where the container listen to !
+          - containerPort: 80 # must match where the container listen to !
+        securityContext:
+          allowPrivilegeEscalation: false
+          #runAsNonRoot: true
+          #capabilities:
+          #  drop: 
+          #    - ALL
+          seccompProfile:
+            type: RuntimeDefault # "RuntimeDefault" or "Localhost"

@@ -20,41 +20,49 @@ spec:
     spec:
       containers:
         - name: api
-          image: pirraste/reimagined-disco-api:v0.0.3
+          image: pirraste/reimagined-disco-api:v0.0.7
           env:
-          - name: LOG_LEVEL
-            value: trace
-          - name: PORT
-            value: "3000"
-          - name: DISABLE_REQUEST_LOGGING
-            value: "true"
-          - name: BEARER_TOKEN
-            value: "todo"
-          #
-          - name: PGDATABASE
-            valueFrom:
-              secretKeyRef:
-                name: pgcreds
-                key: PGDATABASE
-          - name: PGUSER
-            valueFrom:
-              secretKeyRef:
-                name: pgcreds
-                key: PGUSER
-          - name: PGPASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: pgcreds
-                key: PGPASSWORD
-          - name: PGHOST
-            value: "postgres.reimagined-disco.svc.cluster.local"
-          - name: PGPORT
-            value: "5432"
+            - name: LOG_LEVEL
+              value: trace
+            - name: PORT
+              value: "3000"
+            - name: DISABLE_REQUEST_LOGGING
+              value: "true"
+            - name: BEARER_TOKEN
+              value: "todo"
+            #
+            - name: PGDATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: pgcreds
+                  key: PGDATABASE
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: pgcreds
+                  key: PGUSER
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgcreds
+                  key: PGPASSWORD
+            - name: PGHOST
+              value: "postgres.reimagined-disco.svc.cluster.local"
+            - name: PGPORT
+              value: "5432"
           ports:
             - containerPort: 3000 # containerPort must match where the container listen to !
           volumeMounts:
             - name: smb
               mountPath: /data/music
+          securityContext:
+            allowPrivilegeEscalation: false
+            #runAsNonRoot: true
+            capabilities:
+              drop: 
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault # "RuntimeDefault" or "Localhost"
       volumes:
         - name: smb
           persistentVolumeClaim:
