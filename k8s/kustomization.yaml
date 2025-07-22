@@ -6,6 +6,6 @@ resources:
 - secrets-smb.yaml
 - secrets-pg.yaml
 - ingress.yaml
-# - ui.yaml
-# - api.yaml
+- ui.yaml
+- api.yaml
 - postgres.yaml
