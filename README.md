@@ -18,7 +18,7 @@ It just need to be activated:
 
 # Apply
 ```
-sh ./decrypt.sh
+./decrypt.sh
 kubectl apply -k k8s
-sh ./encrypt.sh
+./encrypt.sh
 ```

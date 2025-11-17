@@ -1,6 +1,6 @@
 #!/bin/bash
 export SOPS_AGE_RECIPIENTS=$(<public-age-keys.txt)
-
+echo ${SOPS_AGE_RECIPIENTS}
 SECFILES="secrets secrets-smb secrets-pg"
 
 for SECFILE in $SECFILES; do
