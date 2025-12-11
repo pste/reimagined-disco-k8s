@@ -52,13 +52,20 @@ spec:
                 name: ui-svc
                 port:
                   number: 80
-    - host: music-api.saba.net
-      http:
-        paths:
-          - path: /
+          - path: /api
             pathType: Prefix
             backend:
               service:
                 name: api-svc
                 port:
                   number: 80
+    #- host: music-api.saba.net
+    #  http:
+    #    paths:
+    #      - path: /
+    #        pathType: Prefix
+    #        backend:
+    #          service:
+    #            name: api-svc
+    #            port:
+    #              number: 80
