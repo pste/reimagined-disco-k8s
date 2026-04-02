@@ -36,7 +36,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/proxy-body.size: 20M
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   # tls: 
   #   - hosts:
   #     - web-test.homelab.net
