@@ -6,6 +6,7 @@ metadata:
 spec:
   selector:
     app: reimagined-disco
+    component: ui
   ports:
     - protocol: TCP
       port: 80
@@ -20,12 +21,12 @@ metadata:
 spec:
   selector:
     app: reimagined-disco
+    component: api
   ports:
     - protocol: TCP
       port: 80
       targetPort: 3000 # must match the containerPort of the Pod
   type: ClusterIP
-
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -33,8 +34,8 @@ metadata:
   name: ui-ingress
   namespace: reimagined-disco
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/proxy-body.size: 20M
+    #nginx.ingress.kubernetes.io/rewrite-target: /
+    #nginx.ingress.kubernetes.io/proxy-body.size: 20M
 spec:
   ingressClassName: traefik
   # tls: 
