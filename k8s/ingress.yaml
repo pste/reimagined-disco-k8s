@@ -34,16 +34,15 @@ metadata:
   name: ui-ingress
   namespace: reimagined-disco
   annotations:
-    #nginx.ingress.kubernetes.io/rewrite-target: /
-    #nginx.ingress.kubernetes.io/proxy-body.size: 20M
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
   ingressClassName: traefik
-  # tls: 
-  #   - hosts:
-  #     - web-test.homelab.net
-  #    secretName: web-test.homelab.net
+  tls:
+    - hosts:
+        - music.nestix.dev
+      secretName: music-nestix-dev-tls
   rules:
-    - host: music.saba.net
+    - host: music.nestix.dev
       http:
         paths:
           - path: /
