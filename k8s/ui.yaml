@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: ui
-        image: pirraste/reimagined-disco-ui:v0.2.10
+        image: pirraste/reimagined-disco-ui:v0
         ports:
           - containerPort: 8080 # must match where the container listen to ! nginx-unprivileged listens on 8080
         securityContext:

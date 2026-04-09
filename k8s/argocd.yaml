@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: reimagined-disco
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/pste/reimagined-disco-k8s
+    targetRevision: HEAD
+    path: k8s    # . oppure sottocartella se i manifest non sono in root
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: reimagined-disco
+  syncPolicy:
+    automated:
+      prune: true      # rimuove risorse eliminate dal repo
+      selfHeal: true   # ripristina modifiche manuali al cluster
