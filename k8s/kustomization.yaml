@@ -13,4 +13,4 @@ images:
 - name: pirraste/reimagined-disco-api
   newTag: v0.2.8
 - name: pirraste/reimagined-disco-ui
-  newTag: v0.2.17
+  newTag: v0.2.18
