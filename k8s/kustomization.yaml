@@ -10,7 +10,7 @@ resources:
   - postgres.yaml
 
 images:
-  - name: pirraste/reimagined-disco-ui
-    newTag: v0.2.12
-  - name: pirraste/reimagined-disco-api
-    newTag: v0.2.8
+- name: pirraste/reimagined-disco-api
+  newTag: v0.2.8
+- name: pirraste/reimagined-disco-ui
+  newTag: v0.2.14
