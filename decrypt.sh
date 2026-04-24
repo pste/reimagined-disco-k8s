@@ -4,7 +4,7 @@ export SOPS_AGE_KEY_FILE=$(pwd)/private/age-key.txt
 # create lock file
 touch decrypted
 
-SECFILES="secrets secrets-smb secrets-pg"
+SECFILES="secrets secrets-pg"
 
 for SECFILE in $SECFILES; do
   FNAME="./k8s/secrets/$SECFILE.yaml"

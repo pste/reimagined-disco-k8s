@@ -1,7 +1,7 @@
 #!/bin/bash
 export SOPS_AGE_RECIPIENTS=$(<public-age-keys.txt)
 echo ${SOPS_AGE_RECIPIENTS}
-SECFILES="secrets secrets-smb secrets-pg"
+SECFILES="secrets secrets-pg"
 
 for SECFILE in $SECFILES; do
   FNAME="./k8s/secrets/$SECFILE.yaml"
