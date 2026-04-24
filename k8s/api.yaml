@@ -63,6 +63,7 @@ spec:
           volumeMounts:
             - name: smb
               mountPath: /data/music
+              readOnly: true
           securityContext:
             allowPrivilegeEscalation: false
             runAsNonRoot: true
@@ -74,7 +75,11 @@ spec:
       volumes:
         - name: smb
           persistentVolumeClaim:
-            claimName: pvc-usbmusic-smb
+            claimName: pvc-nas-music-ro
+            readOnly: true
+        #- name: smb
+        #  persistentVolumeClaim:
+        #    claimName: pvc-usbmusic-smb
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000

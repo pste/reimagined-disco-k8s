@@ -1,48 +1,49 @@
+# IMPORTANT: dynamic provisioning (PVC only) does NOT work with read-only shares.
+# The SMB CSI driver needs to create a subdirectory at provision time, which
+# requires write access. Use static provisioning (PV + PVC) for nas-ro.
+# nas-rw supports both static and dynamic provisioning.
+
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  annotations:
-    pv.kubernetes.io/provisioned-by: smb.csi.k8s.io
-  name: pv-usbmusic-smb
-  namespace: reimagined-disco
+  name: pv-usbmusic-nas-ro
 spec:
   capacity:
-    storage: 256G
+    storage: 256Gi   # nominal, SMB does not enforce quotas
   accessModes:
-    - ReadWriteMany
+    - ReadOnlyMany
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: smb
+  storageClassName: ""   # empty: bypasses the provisioner, binds only to matching PVC
   mountOptions:
-    - dir_mode=0777
-    - file_mode=0777
-    - uid=1000
-    - gid=1000
-    #- noperm
-    #- mfsymlinks
-    #- cache=strict
-    - noserverino  # required to prevent data corruption
+    - ro
+    - dir_mode=0555
+    - file_mode=0444
+    - uid=1001
+    - gid=1001
+    - noperm
+    - mfsymlinks
+    - cache=strict
+    - noserverino
   csi:
     driver: smb.csi.k8s.io
-    readOnly: false
-    # volumeHandle format: {smb-server-address}#{sub-dir-name}#{share-name}
-    # make sure this value is unique for every share in the cluster
-    volumeHandle: usbmusic
+    readOnly: true
+    volumeHandle: nasmusic-rd   # must be unique per share in the cluster
     volumeAttributes:
-      source: "//192.168.178.1/FRITZ.NAS" # MUSIC folder
+      source: "//192.168.178.210/Music"   # replace with actual NAS IP and share
     nodeStageSecretRef:
-      name: smbcredentials
-      namespace: reimagined-disco
+      name: nascreds-ro
+      namespace: default
 ---
-kind: PersistentVolumeClaim
 apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
-  name: pvc-usbmusic-smb
+  name: pvc-nas-music-ro
   namespace: reimagined-disco
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadOnlyMany
+  storageClassName: ""
   resources:
     requests:
-      storage: 256G
-  volumeName: pv-usbmusic-smb
-  storageClassName: smb
+      storage: 256Gi
+  volumeName: pv-usbmusic-nas-ro   # binds explicitly to the PV above
