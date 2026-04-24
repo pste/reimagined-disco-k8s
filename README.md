@@ -16,12 +16,15 @@ Store the generated **public** key:
 We keep secrets away from application deployment: they're manually managed.  
 This way ArgoCD can manage the application without knowing any secret.
 
-
 ## Git hook
 
 A simple git hook is configured to avoid commit of encrypted secrets.  
 It just need to be activated:  
 `git config core.hooksPath .githooks`
+
+## Mounts
+
+My mount points are statically provided. They're built on cluster level and the secret they use lives in detault `ns`.
 
 # Apply
 
@@ -49,7 +52,8 @@ Its scope is to update the `images` field in the `kustomize.yaml` file when the 
 It is outside the kustomization to avoid circular references: it monitors and updates this file to avoid drifts.
 
 # Postgres DB
-runAsNonRoot: true 
+
+About dropping privileges.  
 
 Official Postgres uses user uid:999 (starts as root then drops privileges). We can use runAsUser: 999 BUT we need to make sure that the directory hostPath /var/mnt/hdd-data-1 is owned from uid:999 on the node:  
 `talosctl -n $TALOSIP ls -l /var/mnt/hdd-data-1`  
