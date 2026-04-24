@@ -4,7 +4,7 @@ echo ${SOPS_AGE_RECIPIENTS}
 SECFILES="secrets secrets-smb secrets-pg"
 
 for SECFILE in $SECFILES; do
-  FNAME="./k8s/$SECFILE.yaml"
+  FNAME="./k8s/secrets/$SECFILE.yaml"
   if [ -f $FNAME ]; then
     echo "Encrypting $FNAME ..."
     sops --encrypt --in-place --age ${SOPS_AGE_RECIPIENTS} $FNAME

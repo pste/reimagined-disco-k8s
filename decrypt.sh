@@ -7,7 +7,7 @@ touch decrypted
 SECFILES="secrets secrets-smb secrets-pg"
 
 for SECFILE in $SECFILES; do
-  FNAME="./k8s/$SECFILE.yaml"
+  FNAME="./k8s/secrets/$SECFILE.yaml"
   if [ -f $FNAME ]; then
     echo "Decrypting $FNAME ..."
     sops --decrypt --in-place $FNAME
