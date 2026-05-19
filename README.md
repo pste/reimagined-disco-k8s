@@ -53,7 +53,7 @@ It is outside the kustomization to avoid circular references: it monitors and up
 
 # Postgres DB
 
-About dropping privileges.  
+## About dropping privileges.  
 
 Official Postgres uses user uid:999 (starts as root then drops privileges). We can use runAsUser: 999 BUT we need to make sure that the directory hostPath /var/mnt/hdd-data-1 is owned from uid:999 on the node:  
 `talosctl -n $TALOSIP ls -l /var/mnt/hdd-data-1`  
@@ -84,3 +84,6 @@ spec:
           seccompProfile:
             type: RuntimeDefault
 ```
+
+## How to connect
+
