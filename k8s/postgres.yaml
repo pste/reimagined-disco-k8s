@@ -47,6 +47,17 @@ spec:
     spec:
       securityContext:
         fsGroup: 999
+      initContainers:
+        # Gira come root prima che postgres parta.
+        # Necessario perché il hostPath (/var/mnt/hdd-data-1) è di proprietà di root (uid=0)
+        # e postgres (uid=999) non ha i permessi di scrittura sulla directory root del mount.
+        # Su Talos non è possibile fare chown sull'host via SSH, quindi si delega all'initContainer.
+        - name: fix-permissions
+          image: busybox
+          command: ['sh', '-c', 'chown -R 999:999 /var/lib/postgresql/data']
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgresdata
       containers:
         - name: postgres
           image: 'postgres:14'
