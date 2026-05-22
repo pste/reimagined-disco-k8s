@@ -47,3 +47,49 @@ spec:
     requests:
       storage: 256Gi
   volumeName: pv-usbmusic-nas-ro   # binds explicitly to the PV above
+---
+# WRITE PV,PVC
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-usbmusic-nas-rw
+spec:
+  capacity:
+    storage: 256Gi   # nominal, SMB does not enforce quotas
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""   # empty: bypasses the provisioner, binds only to matching PVC
+  mountOptions:
+    - dir_mode=0755
+    - file_mode=0644
+    - uid=1001
+    - gid=1001
+    - noperm
+    - mfsymlinks
+    - cache=strict
+    - noserverino
+  csi:
+    driver: smb.csi.k8s.io
+    readOnly: false
+    volumeHandle: nasmusic-rw   # must be unique per share in the cluster
+    volumeAttributes:
+      source: "//192.168.178.210/Music"
+    nodeStageSecretRef:
+      name: nascreds-rw
+      namespace: default
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-nas-music-rw
+  namespace: reimagined-disco
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 256Gi
+  volumeName: pv-usbmusic-nas-rw   # binds explicitly to the PV above

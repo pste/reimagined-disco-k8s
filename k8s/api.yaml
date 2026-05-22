@@ -77,8 +77,9 @@ spec:
       volumes:
         - name: smb
           persistentVolumeClaim:
-            claimName: pvc-nas-music-ro
-            readOnly: true
+            claimName: pvc-nas-music-rw
+            # claimName: pvc-nas-music-ro  # rollback: ro mount
+            readOnly: false
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
