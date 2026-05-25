@@ -65,7 +65,7 @@ spec:
           volumeMounts:
             - name: smb
               mountPath: /data/music
-              readOnly: true
+              readOnly: false
           securityContext:
             allowPrivilegeEscalation: false
             runAsNonRoot: true
