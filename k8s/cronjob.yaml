@@ -8,7 +8,7 @@ metadata:
     component: jobs
 spec:
   suspend: false
-  schedule: "0 10 * * *"
+  schedule: "*/5 * * * *"
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   jobTemplate:
