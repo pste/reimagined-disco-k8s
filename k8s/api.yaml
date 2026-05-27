@@ -65,7 +65,7 @@ spec:
           volumeMounts:
             - name: smb
               mountPath: /data/music
-              readOnly: false
+              readOnly: true
           securityContext:
             allowPrivilegeEscalation: false
             runAsNonRoot: true
@@ -77,9 +77,8 @@ spec:
       volumes:
         - name: smb
           persistentVolumeClaim:
-            claimName: pvc-nas-music-rw
-            # claimName: pvc-nas-music-ro  # rollback: ro mount
-            readOnly: false
+            claimName: pvc-nas-music-ro
+            readOnly: true
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000

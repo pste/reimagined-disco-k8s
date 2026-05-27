@@ -8,6 +8,7 @@ resources:
 - ui.yaml
 - api.yaml
 - postgres.yaml
+- cronjob.yaml
 
 images:
 - name: pirraste/reimagined-disco-api

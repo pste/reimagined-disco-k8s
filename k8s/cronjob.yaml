@@ -2,25 +2,50 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: reimagined-disco-jobs
+  namespace: reimagined-disco
+  labels:
+    app: reimagined-disco
+    component: jobs
 spec:
   suspend: false
   schedule: "0 10 * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
   jobTemplate:
     spec:
       template:
         spec:
+          restartPolicy: Never
           containers:
-          - name: jobs
-            image: pirraste/reimagined-disco-jobs:v0
-            env:
-            - name: LOG_LEVEL
-              value: "trace"
-              name: API_URL
-              value: "http://api-svc.reimagined-disco.svc.cluster.local:3000"
-              name: API_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: secrets
-                  key: TOKEN
-
-          
+            - name: jobs
+              image: pirraste/reimagined-disco-jobs:v0
+              env:
+                - name: LOG_LEVEL
+                  value: "trace"
+                - name: API_URL
+                  value: "http://api-svc.reimagined-disco.svc.cluster.local:3000"
+                - name: API_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: secrets
+                      key: TOKEN
+              volumeMounts:
+                - name: smb
+                  mountPath: /data/music
+                  readOnly: false
+              securityContext:
+                allowPrivilegeEscalation: false
+                runAsNonRoot: true
+                capabilities:
+                  drop:
+                    - ALL
+                seccompProfile:
+                  type: RuntimeDefault
+          volumes:
+            - name: smb
+              persistentVolumeClaim:
+                claimName: pvc-nas-music-rw
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
