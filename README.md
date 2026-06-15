@@ -55,8 +55,8 @@ It is outside the kustomization to avoid circular references: it monitors and up
 
 ## About dropping privileges.  
 
-Official Postgres uses user uid:999 (starts as root then drops privileges). We can use runAsUser: 999 BUT we need to make sure that the directory hostPath /var/mnt/hdd-data-1 is owned from uid:999 on the node:  
-`talosctl -n $TALOSIP ls -l /var/mnt/hdd-data-1`  
+Official Postgres uses user uid:999 (starts as root then drops privileges). We can use runAsUser: 999 BUT we need to make sure that the directory hostPath /var/mnt/hdd-data-1/postgres is owned from uid:999 on the node:  
+`talosctl -n $TALOSIP ls -l /var/mnt/hdd-data-1/postgres`  
 
 To avoid problems we can use an initcontainer to fix permissions, then run as 999:  
 ```bash
