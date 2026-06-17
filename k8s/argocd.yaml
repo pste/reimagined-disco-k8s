@@ -15,4 +15,4 @@ spec:
   syncPolicy:
     automated:
       prune: true      # rimuove risorse eliminate dal repo
-      selfHeal: true   # ripristina modifiche manuali al cluster
+      selfHeal: false  # true: ripristina modifiche manuali al cluster/false: rimane drifted se cambiato a mano
