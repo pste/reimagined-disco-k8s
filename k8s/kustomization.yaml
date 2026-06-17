@@ -12,8 +12,8 @@ resources:
 
 images:
 - name: pirraste/reimagined-disco-api
-  newTag: v0.6.8
+  newTag: v0.6.10
 - name: pirraste/reimagined-disco-jobs
-  newTag: v0.1.3
+  newTag: v0.1.4
 - name: pirraste/reimagined-disco-ui
   newTag: v0.8.2
