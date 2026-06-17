@@ -9,6 +9,7 @@ metadata:
 spec:
   suspend: false
   schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   jobTemplate:
