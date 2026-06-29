@@ -16,4 +16,4 @@ images:
 - name: pirraste/reimagined-disco-jobs
   newTag: v0.1.4
 - name: pirraste/reimagined-disco-ui
-  newTag: v0.8.4
+  newTag: v0.9.0
