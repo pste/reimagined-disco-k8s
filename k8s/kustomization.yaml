@@ -12,7 +12,7 @@ resources:
 
 images:
 - name: pirraste/reimagined-disco-api
-  newTag: v0.6.10
+  newTag: v0.7.0
 - name: pirraste/reimagined-disco-jobs
   newTag: v0.1.4
 - name: pirraste/reimagined-disco-ui
