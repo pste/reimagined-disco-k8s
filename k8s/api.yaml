@@ -34,7 +34,7 @@ spec:
                   name: secrets
                   key: TOKEN
             - name: SESSION_TIMEOUTSECS
-              value: "28800" # 8h
+              value: "7776000" # 90 giorni di inattività (rolling: ogni uso la rinnova)
             - name: SESSION_SECRET
               valueFrom:
                 secretKeyRef:
