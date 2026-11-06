@@ -22,7 +22,7 @@ spec:
       - name: ui
         image: pirraste/reimagined-disco-ui:v0
         ports:
-          - containerPort: 8080 # must match where the container listen to ! nginx-unprivileged listens on 8080
+          - containerPort: 80 # must match the "listen" in the UI image .docker/nginx.conf (80); nginx-unprivileged defaults to 8080 but the custom conf overrides it
         securityContext:
           allowPrivilegeEscalation: false
           runAsNonRoot: true
