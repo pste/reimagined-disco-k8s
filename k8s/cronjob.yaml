@@ -14,6 +14,9 @@ spec:
   failedJobsHistoryLimit: 3
   jobTemplate:
     spec:
+      # oltre 6 ore il pod viene terminato (come STALE_JOB_HOURS lato API, che poi chiude
+      # il job orfano e lo ri-accoda): un pod bloccato non ferma i giri successivi per sempre
+      activeDeadlineSeconds: 21600
       template:
         spec:
           restartPolicy: Never
@@ -22,7 +25,7 @@ spec:
               image: pirraste/reimagined-disco-jobs:v0
               env:
                 - name: LOG_LEVEL
-                  value: "trace"
+                  value: "info"
                 - name: API_URL
                   value: "http://api-svc.reimagined-disco.svc.cluster.local:80"
                 - name: API_TOKEN

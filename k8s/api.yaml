@@ -23,7 +23,7 @@ spec:
           image: pirraste/reimagined-disco-api:v0
           env:
             - name: LOG_LEVEL
-              value: trace
+              value: info
             - name: PORT
               value: "3000"
             - name: DISABLE_REQUEST_LOGGING
